@@ -1,0 +1,190 @@
+\documentclass[a4paper,12pt,fleqn]{scrartcl}
+\usepackage[l2tabu,orthodox]{nag}% Old habits die hard. All the same, there are commands, classes and packages which are outdated and superseded. nag provides routines to warn the user about the use of those.
+\usepackage[all,error]{onlyamsmath}% Error on deprecated math commands like $$ $$.
+\usepackage{fixltx2e}
+\usepackage[strict=true]{csquotes}
+\usepackage{listings}
+\lstset{frame=single,framerule=0pt,language={C},showstringspaces=false,numbers=left,columns=fullflexible}
+%\usepackage{color}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage{2111defs2,2111theorems}
+\usepackage{nicefrac}
+
+\newcommand{\var}{\textrm{$var$ }}
+\newcommand{\singlequote}[1]{`#1'}
+\newcommand{\myjustification}[2][\Equiv]{{}#1{} &{\bcolor\langle\text{#2}\rangle}\\}
+\newcommand{\remark}[1]{{\sffamily\color{blue}{#1}}}
+\newcommand{\myImplies}[2]{\color{red}#1\color{blue}\Implies\color{red}#2\color{black}}
+\newcommand{\pre}{\mathit{pre}}
+\newcommand{\post}{\mathit{post}}
+\newcommand{\myCode}[1]{\mathbf{\color{ProcessBlue}#1}}
+\newcommand{\myRefines}[2]{\color{red}{#1}\color{black}\isrefinedby\color{red}{#2}}
+
+\title{Assignment 3 - Emirps}
+\date{COMP2111 18s1}
+\author{Rahil Agrawal z5165505\\Aditya Karia z5163287}
+
+\begin{document}
+\pagenumbering{gobble}
+\maketitle
+\pagenumbering{Roman}
+
+\section{Task 1 -Syntactic Data Type Dict}
+\label{sec:task-1}
+Declare dict data type here
+\pagebreak
+\section{Task 2 - Refinement to DictA}
+\label{sec:task-2}
+Refine to dictA here.
+\pagebreak
+\section{Task 3 - Derivation}
+\label{sec:task-3}
+\begin{align*}
+  &\PROC~FunctionName(\VALUE~n, \RESULT~r)\cdot{}	
+  \nt{n,r,x:\left[
+    \begin{array}{l}
+      Pre, Post
+    \end{array}
+  \right]}{(1)}\\
+% 
+  \lrefstep{(1)}
+  {\textbf{Rule}}
+  {
+  \nt{r,x:\left[
+    \begin{array}{l}
+      New Pre, New Post
+    \end{array}
+  \right]}{(2)}}\\
+%
+  \lrefstep{(2)}
+  {\textbf{seq}}
+  {
+  \nt{i,x,r:\left[
+    \begin{array}{l}
+      Pre, Blah
+    \end{array}
+  \right]}{(3)};\\
+  &\nt{i,x:\left[
+    \begin{array}{l}
+      Blah, Post
+    \end{array}
+  \right]}{(4)}}\\
+%
+  \refstep{\textbf{ass - \color{blue}(1)}}
+  {\myCode{i\Ass 1}\\
+  &\myCode{x\Ass 13}}\\
+%
+  \refstep{\textbf{seq}}
+  {
+  \nt{s,x:\left[
+    \begin{array}{l}
+      \pre(16), s=0 \And x>0
+    \end{array}
+  \right]}{(18)};\\
+  &\nt{a,i,r,s,x: \left[
+    \begin{array}{l}
+      x>0 \And s=0, \post(16)
+    \end{array}
+  \right]}{(19)}}\\
+%
+  \lrefstep{(5)}
+  {\textbf{while}}
+  {
+  \myCode{\WHILE~j\neq r~\DO}\\
+  &\qquad \nt{r, j:\left[
+    \begin{array}{l}
+      Inv_{2}\And j\neq r, Inv_{2}
+    \end{array}
+  \right]}{(8)}\\
+  &\myCode{\OD;}}\\
+%
+  \lrefstep{(9)}{\textbf{if}}
+  {\myCode{\IF~\text{Gaurd}}\\
+  &\myCode{\THEN}~\nt{a:[\text{Gaurd}\And\pre(9),\post(9)]}{(11)}\\
+  &\myCode{\ELSE}~\nt{a:[\text{Not Gaurd}\And\pre(9),\post(9)]}{(12)}\\
+  &\myCode{\FI;}}\\
+\end{align*}
+We gather the code for the procedure body of blah:
+\begin{gather*}
+  \mathbf{blah(r,n):}\\
+  \qquad \var i\Ass 1;\\
+  \qquad \var x\Ass 13;\\
+  \qquad r\Ass 13;\\
+  \qquad \WHILE~j\neq r~\DO\\
+  \qquad \qquad x\Ass {x+1};\\
+  \qquad \qquad \var a\Ass 1;\\
+  \qquad \qquad isPrime(x,a);\\
+  \qquad \qquad \IF~a=1~\THEN\\
+  \qquad \qquad \qquad \var s\Ass 0;\\
+  \qquad \qquad \qquad reversen(x,s);\\
+  \qquad \qquad \qquad \var b\Ass 1;\\
+  \qquad \qquad \qquad isPrime(s,b);\\
+  \qquad \qquad \qquad \IF~b=1\And s\neq x~\THEN\\
+  \qquad \qquad \qquad \qquad i\Ass {i+1};\\
+  \qquad \qquad \qquad \qquad r\Ass x;\\
+  \qquad \OD;
+\end{gather*}
+Also, we gather the code for the procedure body of blah:
+\begin{gather*}
+  \mathbf{isPrime(r,j):}\\
+  \qquad \var j\Ass 2;\\
+  \qquad \WHILE~j\neq r~\DO\\
+  \qquad \qquad \IF~(r \textrm{ mod }j)=0~\THEN\\
+  \qquad \qquad \qquad a\Ass 0;\\
+  \qquad \qquad j\Ass {j+1};\\
+  \qquad \OD;\\
+\end{gather*}
+We have derived our code. However we need to prove \textbf{\color{blue}some }\color{black} refinements.
+
+\subsection{\color{blue}Implication 1\color{black}: $\myRefines{[BLAH, BLAH]}{BLAH}$}
+\begin{align*}
+&\text{To prove:} BLAH \Implies BLAH \\\\
+%
+&\text{Proof:}\\
+%
+&LHS = BLAH\\
+%
+\myjustification[\Implies]{BLAH}
+&BLAH\\
+%
+\myjustification[\Implies]{BLAH}
+&BLAH\\
+%
+\myjustification[\Implies]{BLAH}
+&BLAH\\
+%
+\myjustification[\Implies]{BLAH}
+&BLAH\\
+%
+\myjustification[\Implies]{BLAH}
+&RHS\\
+\end{align*}
+
+\subsection{\color{blue}Implication 2\color{black}: $\myRefines{[BLAH, BLAH]}{BLAH}$}
+\begin{align*}
+&\text{To prove:} BLAH \Implies BLAH \\\\
+%
+&\text{Proof:}\\
+%
+&LHS = BLAH\\
+%
+\myjustification[\Implies]{BLAH}
+&BLAH\\
+%
+\myjustification[\Implies]{BLAH}
+&BLAH\\
+%
+\myjustification[\Implies]{BLAH}
+&BLAH\\
+%
+\myjustification[\Implies]{BLAH}
+&BLAH\\
+%
+\myjustification[\Implies]{BLAH}
+&RHS\\
+\end{align*}
+
+\section{Task 4 - C Code}
+\label{sec:task-4}
+\lstinputlisting{dict.c}
+\end{document}
