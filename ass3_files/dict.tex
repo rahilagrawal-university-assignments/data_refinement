@@ -44,7 +44,7 @@ $proc$ $delword^{Dict}$(value w) . $W : [\color{blue}W\neq \{ \}, W = W_{0} \set
 \section{Task 2 - Refinement to DictA}
 \label{sec:task-2}
 We’re refining this to a data type DictA where we replace W with a Trie t. From Ass3 2018 S1 Specification, "A $trie$ $domain$ is a prefixclosed finite subset of $L^*$. A $trie$ is a function from a trie domain to Booleans. Given a trie $t$ we write \textbf{dom}$t$ for its trie domain. Let $T$ be the set of all tries."\\ 
-The correspondance between the two data types is captured by the function $f : T -> P(L^*)$ given by :\\
+The correspondance between the two data types is captured by the function $f : T \mapsto P(L^*)$ given by :
 \begin{center}$f(t) = \{w\in L^* \mid w \in \textbf{dom}t \And t(w)=1\}$\end{center}
 Also, from Ass3 2018 S1 Specification, "Formally, we write $v\leq w$ if word $v\in L^*$ is a prefix of $w\in L^*$, i.e., $\Exi{v'\in L^*}{vv' = w}$. We write B for {0, 1} where 0 represents ‘false’ and 1 ‘true’."\\
 We define our 
@@ -53,8 +53,8 @@ With the aforementioned facts in mind, we define a concrete syntactic data type 
 which consists of an  initialisation predicate \color{blue}$init^{DictA} = (t = \{ \})$ \color{black} and the following operations:\\
 $proc$ $addword^{DictA}$(value w) . $t : [True, \color{blue}\post(addword^{DictA})\color{black}]$ where
 \begin{gather*}
- \post(addword^{DictA}) = \domt = \domto \cup \{v\in L^* \mid v\leq w\} \And t = t_{0}\text{ }\cup \\
- \qquad\qquad\qquad\qquad\qquad \{v\in L^* \mid v\in\domt\text{ } \And v<w \And t_{0}(v) = 1 \Implies t(v) = 1\\
+\color{blue}\post(addword^{DictA})\color{black} = \domt = \domto \cup \{v\in L^* \mid v\leq w\} \And t = t_{0}\text{ }\cup \\
+\qquad\qquad\qquad\qquad\qquad \{v\in L^* \mid v\in\domt\text{ } \And v<w \And t_{0}(v) = 1 \Implies t(v) = 1\\
 \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad v<w \And t_{0}(v) = 0 \Implies t(v) = 0\\
 \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad v=w \Implies t(v) = 1\}
 \end{gather*}
@@ -93,42 +93,43 @@ Condition (2) is only required to be proven when the concrete pre-condition is n
 Finally, condition (4) needs to be checked for all operations.\\
 For addword, we prove
 \begin{align*}
-&LHS = BLAH\\
+&\color{red}pre_{addword}^{Dict}\subst {f(t)}W \And \color{blue}post_{addword}^{DictA}\color{black} = True \And \domt = \domto \cup \{v\in L^* \mid v\leq w\} \And t = t_{0}\text{ }\cup \\
+&\qquad\qquad\qquad\qquad\qquad \{v\in L^* \mid v\in\domt\text{ } \And v<w \And t_{0}(v) = 1 \Implies t(v) = 1\\
+&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad v<w \And t_{0}(v) = 0 \Implies t(v) = 0\\
+&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad v=w \Implies t(v) = 1\}\\
 %
-\myjustification[\Implies]{BLAH}
-&BLAH\\
+\myjustification[\Implies]{Trie is the same as old trie but we added the prefixes of w}
+\myjustification[]{without changing their old mappings}
+\myjustification[]{New prefixes are mapped to 0 and w is mapped to 1.}
+\myjustification[]{This means we added a word w if it did not already exist, def. of trie and f}
+&\color{black} f(t) = f(t_0) \cup {w}\\
 %
-\myjustification[\Implies]{BLAH}
-&BLAH\\
-%
-\myjustification[\Implies]{BLAH}
-&RHS\\
+\myjustification[\Implies]{Definition of $addword^{Dict}$}
+&\color{red}\post_{addword^{Dict}}\subst {f(t_0), f(t)}{W_0, W}\\
 \end{align*}\\
 For checkword, we prove
 \begin{align*}
-&LHS = BLAH\\
+&\color{red}pre_{checkword}^{Dict}\subst {f(t)}W \And \color{blue}post_{checkword}^{DictA}\color{black} = True \And b = (t(w) = 1)	 \\
 %
-\myjustification[\Implies]{BLAH}
-&BLAH\\
+\myjustification[\Implies]{b is 1 if w is in $\domt$ and trie maps w to 1, 0 otherwise. def. of trie.}
+\myjustification[\Implies]{b = 1 means w is in our set of words. def of f}
+&b = (w \in f(t))\\
 %
-\myjustification[\Implies]{BLAH}
-&BLAH\\
-%
-\myjustification[\Implies]{BLAH}
-&RHS\\
+\myjustification[\Implies]{def. of $checkword^{Dict}$}
+&\color{red}\post_{checkword^{Dict}}\subst {f(t_0), f(t)}{W_0, W}
 \end{align*}\\
 For delword, we prove
 \begin{align*}
-&LHS = BLAH\\
+&\color{red}pre_{delword}^{Dict}\subst {f(t)}W \And \color{blue}post_{delword}^{DictA}\color{black} = W \neq \{ \} \And b = (t(w) = 0)\\
 %
-\myjustification[\Implies]{BLAH}
-&BLAH\\
+\myjustification[\Implies]{def of f}
+&w \notin f(t)\\
 %
-\myjustification[\Implies]{BLAH}
-&BLAH\\
+\myjustification[\Implies]{Clearly}
+&f(t) = f(t_0) \setminus {w}\\
 %
-\myjustification[\Implies]{BLAH}
-&RHS\\
+\myjustification[\Implies]{def. of $delword^{Dict}$}
+&\color{red}\post_{delword^{Dict}}\subst {f(t_0), f(t)}{W_0, W}\
 \end{align*}\\
 \pagebreak
 \section{Task 3 - Derivation}
