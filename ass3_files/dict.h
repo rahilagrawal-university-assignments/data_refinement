@@ -24,4 +24,5 @@ void delword (const Dict r, const word w);
 
 void barf(char *s);             /* send s to stderr and die */
 
+void printDict(const Dict r);
 #endif
