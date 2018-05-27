@@ -33,7 +33,7 @@
 \maketitle
 \pagenumbering{Roman}
 
-\section{Task 1 -Syntactic Data Type Dict}
+\section{Syntactic Data Type - Dict}
 \label{sec:task-1}
 We define a syntactic data type $\Dict$ that encapsulates a dictionary set $W$ as follows :
 \begin{center}$\Dict = (init^{Dict} , (W,x : [pre_{j}^{Dict}, post_{j}^{Dict}]_{j\in J}))$\end{center}
@@ -41,7 +41,7 @@ which consists of an  initialisation predicate \color{blue}$init^{Dict} = (W = \
 $proc$ $addword^{Dict}$(value w) . $W : [True, \color{blue}W = W_{0} \cup w\color{black}]$\\
 $proc$ $checkword^{Dict}$(value W, value w, result b) . $b : [True, \color{blue}b = (W = \{ \})\color{black}]$\\
 $proc$ $delword^{Dict}$(value w) . $W : [\color{blue}W\neq \{ \}, W = W_{0} \setminus {w}\color{black}]$\\
-\section{Task 2 - Refinement to DictA}
+\section{Refinement to DictA}
 \label{sec:task-2}
 We’re refining this to a data type DictA where we replace W with a Trie t. From Ass3 2018 S1 Specification, "A $trie$ $domain$ is a prefixclosed finite subset of $L^*$. A $trie$ is a function from a trie domain to Booleans. Given a trie $t$ we write \textbf{dom}$t$ for its trie domain. Let $T$ be the set of all tries."\\ 
 The correspondance between the two data types is captured by the function $f : T \mapsto P(L^*)$ given by :
@@ -134,154 +134,216 @@ For delword, we prove
 &\color{red}\post_{delword^{Dict}}\subst {f(t_0), f(t)}{W_0, W}\
 \end{align*}\\
 \pagebreak
-\section{Task 3 - Derivation}
+\section{Derivation}
 \label{sec:task-3}
+Before we refine the code for our functions for $\DictA$ , we define certain predicates to help us during derivation.\\\\
+We associate a natural number $i$ with each element $x$ of a set $X$ and define $y_X^{(i)}$ to be the $i^{th}$ element.\\
+The total number of elements in a set $X$ is given by $size(X)$.\\ 
 \begin{align*}
-  &\PROC~FunctionName(\VALUE~n, \RESULT~r)\cdot{}	
-  \nt{n,r,x:\left[
+  &\PROC~delword(\VALUE~w)\cdot{}	
+  {t:\left[
     \begin{array}{l}
-      Pre, Post
+      t\neq \{ \}, t(w) = 0
     \end{array}
-  \right]}{(1)}\\
+  \right]}\\
 % 
-  \lrefstep{(1)}
-  {\textbf{Rule}}
-  {
-  \nt{r,x:\left[
+  \refstep{\textbf{i-loc, seq}}
+  {t, i:\left[
     \begin{array}{l}
-      New Pre, New Post
+      t\neq \{ \}, i=0
     \end{array}
-  \right]}{(2)}}\\
-%
-  \lrefstep{(2)}
-  {\textbf{seq}}
-  {
-  \nt{i,x,r:\left[
+  \right];\\
+  \refstep{\textbf{ass}}{\myCode{var\text{ }i\Ass 0;}}\\
+  &t,i:\left[
     \begin{array}{l}
-      Pre, Blah
+      i=0, t(w) = 0
     \end{array}
-  \right]}{(3)};\\
-  &\nt{i,x:\left[
-    \begin{array}{l}
-      Blah, Post
-    \end{array}
-  \right]}{(4)}}\\
-%
-  \refstep{\textbf{ass - \color{blue}(1)}}
-  {\myCode{i\Ass 1}\\
-  &\myCode{x\Ass 13}}\\
-%
-  \refstep{\textbf{seq}}
-  {
-  \nt{s,x:\left[
-    \begin{array}{l}
-      \pre(16), s=0 \And x>0
-    \end{array}
-  \right]}{(18)};\\
-  &\nt{a,i,r,s,x: \left[
-    \begin{array}{l}
-      x>0 \And s=0, \post(16)
-    \end{array}
-  \right]}{(19)}}\\
-%
-  \lrefstep{(5)}
-  {\textbf{while}}
-  {
-  \myCode{\WHILE~j\neq r~\DO}\\
-  &\qquad \nt{r, j:\left[
-    \begin{array}{l}
-      Inv_{2}\And j\neq r, Inv_{2}
-    \end{array}
-  \right]}{(8)}\\
-  &\myCode{\OD;}}\\
-%
-  \lrefstep{(9)}{\textbf{if}}
-  {\myCode{\IF~\text{Gaurd}}\\
-  &\myCode{\THEN}~\nt{a:[\text{Gaurd}\And\pre(9),\post(9)]}{(11)}\\
-  &\myCode{\ELSE}~\nt{a:[\text{Not Gaurd}\And\pre(9),\post(9)]}{(12)}\\
-  &\myCode{\FI;}}\\
+  \right]\\
+  \refstep{\textbf{proc, $i=0 \Implies i\leq size(t)$}}
+ 	{\myCode{delR(w, i);}}
+  }
 \end{align*}
-We gather the code for the procedure body of blah:
-\begin{gather*}
-  \mathbf{blah(r,n):}\\
-  \qquad \var i\Ass 1;\\
-  \qquad \var x\Ass 13;\\
-  \qquad r\Ass 13;\\
-  \qquad \WHILE~j\neq r~\DO\\
-  \qquad \qquad x\Ass {x+1};\\
-  \qquad \qquad \var a\Ass 1;\\
-  \qquad \qquad isPrime(x,a);\\
-  \qquad \qquad \IF~a=1~\THEN\\
-  \qquad \qquad \qquad \var s\Ass 0;\\
-  \qquad \qquad \qquad reversen(x,s);\\
-  \qquad \qquad \qquad \var b\Ass 1;\\
-  \qquad \qquad \qquad isPrime(s,b);\\
-  \qquad \qquad \qquad \IF~b=1\And s\neq x~\THEN\\
-  \qquad \qquad \qquad \qquad i\Ass {i+1};\\
-  \qquad \qquad \qquad \qquad r\Ass x;\\
-  \qquad \OD;
-\end{gather*}
-Also, we gather the code for the procedure body of blah:
-\begin{gather*}
-  \mathbf{isPrime(r,j):}\\
-  \qquad \var j\Ass 2;\\
-  \qquad \WHILE~j\neq r~\DO\\
-  \qquad \qquad \IF~(r \textrm{ mod }j)=0~\THEN\\
-  \qquad \qquad \qquad a\Ass 0;\\
-  \qquad \qquad j\Ass {j+1};\\
-  \qquad \OD;\\
-\end{gather*}
-We have derived our code. However we need to prove \textbf{\color{blue}some }\color{black} refinements.
-
-\subsection{\color{blue}Implication 1\color{black}: $\myRefines{[BLAH, BLAH]}{BLAH}$}
 \begin{align*}
-&\text{To prove:} BLAH \Implies BLAH \\\\
-%
-&\text{Proof:}\\
-%
-&LHS = BLAH\\
-%
-\myjustification[\Implies]{BLAH}
-&BLAH\\
-%
-\myjustification[\Implies]{BLAH}
-&BLAH\\
-%
-\myjustification[\Implies]{BLAH}
-&BLAH\\
-%
-\myjustification[\Implies]{BLAH}
-&BLAH\\
-%
-\myjustification[\Implies]{BLAH}
-&RHS\\
+  &\PROC~checkword(\VALUE~b, \VALUE~w)\cdot{}	
+  {b, t:\left[
+    \begin{array}{l}
+      TRUE, b = (t(w) = 1)
+    \end{array}
+  \right]}\\
+% 
+  \refstep{\textbf{i-loc, seq}}
+  {b, t, i:\left[
+    \begin{array}{l}
+      TRUE, i=0
+    \end{array}
+  \right];\\
+  \refstep{\textbf{ass}}
+  	{\myCode{var\text{ }i\Ass 0;}}\\
+  &t,i:\left[
+    \begin{array}{l}
+      i=0, b = (t(w) = 1)
+    \end{array}
+  \right]\\
+  \refstep{\textbf{proc, $i=0 \Implies i\leq size(t)$}}
+ 	{\myCode{checkR(w, b, i);}}\\
+  }
 \end{align*}
-
-\subsection{\color{blue}Implication 2\color{black}: $\myRefines{[BLAH, BLAH]}{BLAH}$}
 \begin{align*}
-&\text{To prove:} BLAH \Implies BLAH \\\\
+  &\PROC~addword(\VALUE~w)\cdot{}	
+  {b, t:\left[
+    \begin{array}{l}
+      TRUE, \color{blue}post_{addword}^{DictA}
+    \end{array}
+  \right]}\\
+% 
+  \refstep{\textbf{i-loc, seq}}
+  {b, t, i:\left[
+    \begin{array}{l}
+      TRUE, i=0
+    \end{array}
+  \right];\\
+  \refstep{\textbf{ass}}
+  	{\myCode{var\text{ }i\Ass 0;}}\\
+  &t,i:\left[
+    \begin{array}{l}
+      i=0, \color{blue}post_{addword}^{DictA}
+    \end{array}
+  \right]\\
+  \refstep{\textbf{proc, $i=0 \Implies i\leq size(t)$}}
+ 	{\myCode{addR(w, b, i);}}\\
+  }
+\end{align*}
+\begin{align*}
+&\PROC~delR(\VALUE~w, \VALUE~i)\cdot{}	
+  {t:\left[
+    \begin{array}{l}
+      i\leq size(t), t(w) = 0
+    \end{array}
+  \right]}\\
 %
-&\text{Proof:}\\
+\refstep{\textbf{if}}
+  {\myCode{\IF~i\neq size(t)}\\
+  &\myCode{\THEN}~\nt{t, i:[i<size ,t(w) = 0]}{(1)}\\
+  &\myCode{\ELSE}~t, i:[i = size, t(w) = 0]\\
+  \refstep{\textbf{skip - Proof(1)}}{
+  	\qquad \myCode{skip;}\\
+  }
+  &\myCode{\FI;}\\
+ }
 %
-&LHS = BLAH\\
+\lrefstep{(1)}{\textbf{if}}
+  {\myCode{\IF~y_t^{i} = w \mapsto t(w)}\\
+  &\myCode{\THEN}~t, i:[i<size \And y_t^{i} = w \mapsto t(w) , t(w) = 0]\\
+  \refstep{\textbf{ass, $0=0$}}{
+  	\qquad \myCode{t(w)\Ass 0;}\\
+  }
+  &\myCode{\ELSE}~\nt{t, i:[i = size \And y_t^{i} \neq w \mapsto t(w), t(w) = 0]}{(2)}\\
+  &\myCode{\FI;}\\
+ }
 %
-\myjustification[\Implies]{BLAH}
-&BLAH\\
+\lrefstep{(2)}{\textbf{seq, con c}}
+  {t, i:[i<size \And y_t^{i} \neq w \mapsto t(w)\And i=c , i = c+1];\\
+  \refstep{\textbf{ass, $c=i_0 \And i=c+1 \Implies i = i_0 + 1$}}{
+  	\qquad \myCode{i\Ass i+1;}\\
+  }
+  &t, i:[i = c+1, t(w) = 0]\\
+  \refstep{\textbf{proc, $c = i < size \Implies i + 1 \leq size$}}{
+  	\qquad \myCode{delR(w,i);}
+  }
+}   
+\end{align*}
+\begin{align*}
+&\PROC~checkR(\VALUE~w, \RESULT~b, \VALUE~i)\cdot{}	
+  {t:\left[
+    \begin{array}{l}
+      i\leq size(t) , b = (t(w) = 1)
+    \end{array}
+  \right]}\\
 %
-\myjustification[\Implies]{BLAH}
-&BLAH\\
+\refstep{\textbf{if}}
+  {\myCode{\IF~i\neq size(t)}\\
+  &\myCode{\THEN}~\nt{t, i:[i<size ,b = (t(w) = 1)]}{(1)}\\
+  &\myCode{\ELSE}~t, i:[i = size, b = (t(w) = 1)]\\
+  \refstep{\textbf{skip - Proof(2)}}{
+  	\qquad \myCode{skip;}\\
+  }
+  &\myCode{\FI;}\\
+ }
+\end{align*}
+\begin{align*}
+\lrefstep{(1)}{\textbf{if}}
+  {\myCode{\IF~y_t^{i} = w \mapsto 1}\\
+  &\myCode{\THEN}~t, i:[i<size \And y_t^{i} = w \mapsto 1 , b = (t(w) = 1)]\\
+  \refstep{\textbf{ass, $w\mapsto 1 \Implies t(w)=1\Implies b = TRUE$}}{
+  	\qquad \myCode{b\Ass TRUE;}\\
+  }
+  &\myCode{\ELSE}~\nt{t, i:[i = size \And y_t^{i} \neq w \mapsto 1, b = (t(w) = 1)]}{(2)}\\
+  &\myCode{\FI;}\\
+ }
+\lrefstep{(2)}{\textbf{seq, con c}}
+  {t, i:[i<size \And y_t^{i} \neq w \mapsto 1\And i=c , i = c+1];\\
+  \refstep{\textbf{ass, $c=i_0 \And i=c+1 \Implies i = i_0 + 1$}}{
+  	\qquad \myCode{i\Ass i+1;}\\
+  }
+  &t, i:[i = c+1, b = (t(w) = 1)]\\
+  \refstep{\textbf{proc, $c = i < size \Implies i + 1 \leq size$}}{
+  	\qquad \myCode{checkR(w, b, i);}
+  }
+}   
+\end{align*}\\
+Before we derive code for addR, we define $S$ to be the set of all prefixes of a word $w$.
+\begin{align*}
+&\PROC~addR(\VALUE~w, \VALUE~i)\cdot{}	
+  {t:\left[
+    \begin{array}{l}
+      i\leq size(t) , \color{blue}post_{addword}^{DictA}
+    \end{array}
+  \right]}\\
 %
-\myjustification[\Implies]{BLAH}
-&BLAH\\
+\refstep{\textbf{if}}
+  {\myCode{\IF~i\neq size(t)}\\
+  &\myCode{\THEN}~\nt{t, i:[i<size ,\color{blue}post_{addword}^{DictA}]}{(1)}\\
+  &\myCode{\ELSE}~t, i:[i = size, \color{blue}post_{addword}^{DictA}]\\
+  \refstep{\textbf{skip - Proof(3)}}{
+  	\qquad \myCode{skip;}\\
+  }
+  &\myCode{\FI;}\\
+ }
 %
-\myjustification[\Implies]{BLAH}
-&BLAH\\
+\lrefstep{(1)}{\textbf{seq, con G}}
+  {t, i:[i<size \And G=\domt , \domt=G \cup y_S^{i}];\\
+  \refstep{\textbf{ass, $G = \domto \And \domt=G \cup y_S^{i}$}}{
+  	\qquad \myCode{\domt\Ass \domto \cup y_S^{i};}\\
+  }
+  &\nt{t, i:[\domt=G \cup y_S^{i}, \color{blue}post_{addword}^{DictA}]}{(2)}\\
+}
+\end{align*}
+\begin{align*}
+\lrefstep{(2)}{\textbf{if}}
+  {\myCode{\IF~t(y_S^{i}) \neq 0,1}\\
+  &\myCode{\THEN}~\nt{t, i:[\domt=G \cup y_S^{i} \And t(y_S^{i}) \neq 0,1, \color{blue}post_{addword}^{DictA}]}{(3)}\\
+  &\myCode{\ELSE}~t, i:[\domt=G \cup y_S^{i} \And t(y_S^{i}) = 0,1, \color{blue}post_{addword}^{DictA}]\\
+   \refstep{\textbf{skip, }\text{$y_S^{i}$ already has a mapping, so we dont change anything}}{
+   	\qquad \myCode{skip}\\
+  }
+  &\myCode{\FI;}\\
+ }
 %
-\myjustification[\Implies]{BLAH}
-&RHS\\
+\lrefstep{(3)}{\textbf{if}}
+  {\myCode{\IF}~y_S^{i}=w \neq 0,1\\
+  &\myCode{\THEN}~t, i:[\domt=G \cup y_S^{i} \And t(y_S^{i}) \neq 0,1 \And y_S^{i}=w, \color{blue}post_{addword}^{DictA}]\\
+   \refstep{\textbf{ass, }\text{$t(y_S^{i}) \neq 0,1 \Implies \{y_S^{i}\mapsto t(y_S^{i})\} \notin t \Implies$ Add to trie and map to 1 $(\because y_S^{i}=w)$}}{
+   	\qquad \myCode{t = t_0 \cup \{y_S^{i} \mapsto 1\}}\\
+  }
+  &\myCode{\ELSE}~t, i:[\domt=G \cup y_S^{i} \And t(y_S^{i}) \neq 0,1 \And y_S^{i}\neq w, \color{blue}post_{addword}^{DictA}]\\
+  \refstep{\textbf{ass,}\text{$t(y_S^{i}) \neq 0,1 \Implies \{y_S^{i}\mapsto t(y_S^{i})\} \notin t \Implies$Add to trie and map to 0$(\because y_S^{i}\neq w)$}}{
+  	\qquad \myCode{t = t_0 \cup \{y_S^{i} \mapsto 0\}}\\
+  }
+  &\myCode{\FI;}\\
+ }
 \end{align*}
 
-\section{Task 4 - C Code}
+\section{C Code}
 \label{sec:task-4}
 \lstinputlisting{dict.c}
 \end{document}
