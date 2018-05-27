@@ -54,7 +54,7 @@ which consists of an  initialisation predicate \color{blue}$init^{DictA} = (t = 
 $proc$ $addword^{DictA}$(value w) . $t : [True, \color{blue}\post(addword^{DictA})\color{black}]$ where
 \begin{gather*}
 \color{blue}\post(addword^{DictA})\color{black} = \domt = \domto \cup \{v\in L^* \mid v\leq w\} \And t = t_{0}\text{ }\cup \\
-\qquad\qquad\qquad\qquad\qquad \{v\in L^* \mid v\in\domt\text{ } \And v<w \And t_{0}(v) = 1 \Implies t(v) = 1\\
+\qquad\qquad\qquad\qquad\qquad \{v\mapsto t(v) \mid v\in\domt\text{ } \And v<w \And t_{0}(v) = 1 \Implies t(v) = 1\\
 \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad v<w \And t_{0}(v) = 0 \Implies t(v) = 0\\
 \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad v<w \And t_{0}(v) \neq 0,1 \Implies t(v) = 0\\
 \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad v=w \Implies t(v) = 1\}
@@ -95,7 +95,7 @@ Finally, condition (4) needs to be checked for all operations.\\
 For addword, we prove
 \begin{align*}
 &\color{red}pre_{addword}^{Dict}\subst {f(t)}W \And \color{blue}post_{addword}^{DictA}\color{black} = True \And \domt = \domto \cup \{v\in L^* \mid v\leq w\} \And t = t_{0}\text{ }\cup \\
-&\qquad\qquad\qquad\qquad\qquad \{v\in L^* \mid v\in\domt\text{ } \And v<w \And t_{0}(v) = 1 \Implies t(v) = 1\\
+&\qquad\qquad\qquad\qquad\qquad \{v\mapsto t(v) \mid v\in\domt\text{ } \And v<w \And t_{0}(v) = 1 \Implies t(v) = 1\\
 &\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad v<w \And t_{0}(v) = 0 \Implies t(v) = 0\\
 &\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad v<w \And t_{0}(v) \neq 0,1 \Implies t(v) = 0\\
 &\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad v=w \Implies t(v) = 1\}\\
