@@ -24,7 +24,7 @@
 \newcommand{\domto}{\mathbf{dom}t_{0}}
 \newcommand{\myRefines}[2]{\color{red}{#1}\color{black}\isrefinedby\color{red}{#2}}
 
-\title{Assignment 3 - Emirps}
+\title{Assignment 3 - Trie Harder}
 \date{COMP2111 18s1}
 \author{Rahil Agrawal z5165505\\Aditya Karia z5163287}
 
@@ -56,6 +56,7 @@ $proc$ $addword^{DictA}$(value w) . $t : [True, \color{blue}\post(addword^{DictA
 \color{blue}\post(addword^{DictA})\color{black} = \domt = \domto \cup \{v\in L^* \mid v\leq w\} \And t = t_{0}\text{ }\cup \\
 \qquad\qquad\qquad\qquad\qquad \{v\in L^* \mid v\in\domt\text{ } \And v<w \And t_{0}(v) = 1 \Implies t(v) = 1\\
 \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad v<w \And t_{0}(v) = 0 \Implies t(v) = 0\\
+\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad v<w \And t_{0}(v) \neq 0,1 \Implies t(v) = 0\\
 \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad v=w \Implies t(v) = 1\}
 \end{gather*}
 $proc$ $checkword^{DictA}$(value t, value w, result b) . $b : [True, \color{blue}b = (t(w) = 1)\color{black}]$\\
@@ -96,6 +97,7 @@ For addword, we prove
 &\color{red}pre_{addword}^{Dict}\subst {f(t)}W \And \color{blue}post_{addword}^{DictA}\color{black} = True \And \domt = \domto \cup \{v\in L^* \mid v\leq w\} \And t = t_{0}\text{ }\cup \\
 &\qquad\qquad\qquad\qquad\qquad \{v\in L^* \mid v\in\domt\text{ } \And v<w \And t_{0}(v) = 1 \Implies t(v) = 1\\
 &\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad v<w \And t_{0}(v) = 0 \Implies t(v) = 0\\
+&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad v<w \And t_{0}(v) \neq 0,1 \Implies t(v) = 0\\
 &\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad v=w \Implies t(v) = 1\}\\
 %
 \myjustification[\Implies]{Trie is the same as old trie but we added the prefixes of w}
@@ -120,7 +122,7 @@ For checkword, we prove
 \end{align*}\\
 For delword, we prove
 \begin{align*}
-&\color{red}pre_{delword}^{Dict}\subst {f(t)}W \And \color{blue}post_{delword}^{DictA}\color{black} = W \neq \{ \} \And b = (t(w) = 0)\\
+&\color{red}pre_{delword}^{Dict}\subst {f(t)}W \And \color{blue}post_{delword}^{DictA}\color{black} = W \neq \{ \} \And t(w) = 0\\
 %
 \myjustification[\Implies]{def of f}
 &w \notin f(t)\\
