@@ -243,7 +243,7 @@ The total number of elements in a set $X$ is given by $size(X)$.\\
   \refstep{\textbf{ass, $0=0$}}{
   	\qquad \myCode{t(w)\Ass 0;}\\
   }
-  &\myCode{\ELSE}~\nt{t, i:[i = size(t) \And y_t^{i} \neq w \mapsto t(w), t(w) = 0]}{(2)}\\
+  &\myCode{\ELSE}~\nt{t, i:[i < size(t) \And y_t^{i} \neq w \mapsto t(w), t(w) = 0]}{(2)}\\
   &\myCode{\FI;}\\
  }
 %
@@ -309,7 +309,7 @@ Before we derive code for addR, we define $S$ to be the set of all prefixes of a
 \refstep{\textbf{if}}
   {\myCode{\IF~i\neq size(S)}\\
   &\myCode{\THEN}~\nt{t, i:[i<size(S) ,\color{blue}post_{addword}^{DictA}]}{(1)}\\
-  &\myCode{\ELSE}~t, i:[i = size(S), \color{blue}post_{addword}^{DictA}]\\
+  &\myCode{\ELSE}~t, i:[i < size(S), \color{blue}post_{addword}^{DictA}]\\
   \refstep{\textbf{skip - Proof(3)}}{
   	\qquad \myCode{skip;}\\
   }
@@ -317,35 +317,43 @@ Before we derive code for addR, we define $S$ to be the set of all prefixes of a
  }
 %
 \lrefstep{(1)}{\textbf{seq, con G}}
-  {t, i:[i<size(S) \And G=\domt , \domt=G \cup y_S^{i}];\\
+  {t, i:[i<size(S) \And G=\domt , i < size(S) \And \domt=G \cup y_S^{i}];\\
   \refstep{\textbf{ass, $G = \domto \And \domt=G \cup y_S^{i}$}}{
   	\qquad \myCode{\domt\Ass \domto \cup y_S^{i};}\\
   }
-  &\nt{t, i:[\domt=G \cup y_S^{i}, \color{blue}post_{addword}^{DictA}]}{(2)}\\
+  &\nt{t, i:[i < size(S) \And \domt=G \cup y_S^{i}, \color{blue}post_{addword}^{DictA}]}{(2)}\\
 }
 \end{align*}
 \begin{align*}
 \lrefstep{(2)}{\textbf{if}}
   {\myCode{\IF~t_0(y_S^{i}) \neq 0,1}\\
-  &\myCode{\THEN}~\nt{t, i:[\domt=G \cup y_S^{i} \And t(y_S^{i}) \neq 0,1, \color{blue}post_{addword}^{DictA}]}{(3)}\\
-  &\myCode{\ELSE}~t, i:[\domt=G \cup y_S^{i} \And t(y_S^{i}) = 0,1, \color{blue}post_{addword}^{DictA}]\\
-   \refstep{\textbf{skip, }\text{$y_S^{i}$ already has a mapping, so we dont change anything}}{
-   	\qquad \myCode{skip}\\
-  }
+  &\myCode{\THEN}~\nt{t, i:[i < size(S) \And\domt=G \cup y_S^{i} \And t(y_S^{i}) \neq 0,1, \color{blue}post_{addword}^{DictA}]}{(3)}\\
+  &\myCode{\ELSE}~\nt{t, i:[i < size(S) \And\domt=Given \cup y_S^{i} \And t(y_S^{i}) = 0,1, \color{blue}post_{addword}^{DictA}]}{(4)}\\
   &\myCode{\FI;}\\
  }
 %
 \lrefstep{(3)}{\textbf{if}}
   {\myCode{\IF}~y_S^{i}=w\\
-  &\myCode{\THEN}~t, i:[\domt=G \cup y_S^{i} \And t(y_S^{i}) \neq 0,1 \And y_S^{i}=w, \color{blue}post_{addword}^{DictA}]\\
+  &\myCode{\THEN}~t, i:[i < size(S) \And\domt=G \cup y_S^{i} \And t(y_S^{i}) \neq 0,1 \And y_S^{i}=w, \color{blue}post_{addword}^{DictA}]\\
    \refstep{\textbf{ass, }\text{$t_0(y_S^{i}) \neq 0,1 \And y_S^{i}=w\Implies$ Add to trie and map to 1 $(\because$ w is added)}}{
    	\qquad \myCode{t = t_0 : y_S^{i} \mapsto 1}\\
   }
-  &\myCode{\ELSE}~t, i:[\domt=G \cup y_S^{i} \And t(y_S^{i}) \neq 0,1 \And y_S^{i}\neq w, \color{blue}post_{addword}^{DictA}]\\
+  &\myCode{\ELSE}~t, i:[i < size(S) \And\domt=G \cup y_S^{i} \And t(y_S^{i}) \neq 0,1 \And y_S^{i}\neq w, \color{blue}post_{addword}^{DictA}]\\
   \refstep{\textbf{ass,}\text{$t_0(y_S^{i}) \neq 0,1 \And y_S^{i}\neq w\Implies$Add to trie and map to 0$(\because$ prefix of w is added)}}{
   	\qquad \myCode{t = t_0 : y_S^{i} \mapsto 0}\\
   }
   &\myCode{\FI;}\\
+%
+\lrefstep{(4)}{\textbf{seq, con c}}
+  {t, i:[i < size(S) \And\domt=Given \cup y_S^{i} \And t(y_S^{i}) = 0,1\And i=c , i = c+1];\\
+  \refstep{\textbf{ass, $c=i_0 \And i=c+1 \Implies i = i_0 + 1$}}{
+  	\qquad \myCode{i\Ass i+1;}\\
+  }
+  &t, i:[i = c+1, \color{blue}post_{addword}^{DictA}]\\
+  \refstep{\textbf{proc, $c = i < size(t) \Implies i + 1 \leq size(t)$}}{
+  	\qquad \myCode{addR(w, i);}
+  }
+  }
  }
 \end{align*}
 
