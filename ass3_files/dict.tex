@@ -328,7 +328,7 @@ Before we derive code for addR, we define $S$ to be the set of all prefixes of a
 \lrefstep{(2)}{\textbf{if}}
   {\myCode{\IF~t_0(y_S^{i}) \neq 0,1}\\
   &\myCode{\THEN}~\nt{t, i:[i < size(S) \And\domt=G \cup y_S^{i} \And t(y_S^{i}) \neq 0,1, \color{blue}post_{addword}^{DictA}]}{(3)}\\
-  &\myCode{\ELSE}~\nt{t, i:[i < size(S) \And\domt=Given \cup y_S^{i} \And t(y_S^{i}) = 0,1, \color{blue}post_{addword}^{DictA}]}{(4)}\\
+  &\myCode{\ELSE}~\nt{t, i:[i < size(S) \And\domt=G \cup y_S^{i} \And t(y_S^{i}) = 0,1, \color{blue}post_{addword}^{DictA}]}{(4)}\\
   &\myCode{\FI;}\\
  }
 %
