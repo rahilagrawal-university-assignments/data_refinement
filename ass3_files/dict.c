@@ -52,25 +52,6 @@ void delR(Dict r, const word w, int i) {
     }
 }
 
-void printDictR(const Dict r, char str[], int level)
-{
-    if (r->eow == TRUE)
-    {
-        str[level] = '\0';
-        printf("%s\n", str);
-    }
-
-    int i;
-    for (i = 0; i < VECSIZE; i++)
-    {
-        if (r->cvec[i] != NULL)
-        {
-            str[level] = i + 'a';
-            printDictR(r->cvec[i], str, level + 1);
-        }
-    }
-}
-
 void barf(char *s) {
     fprintf(stderr, "%s\n", s);
 }
@@ -88,10 +69,4 @@ bool checkword (const Dict r, const word w) {
 void delword (const Dict r, const word w) {
     int i = 0;
     delR(r, w, i);
-}
-
-void printDict(const Dict r) {
-    char str[100];
-    int level = 0;
-    printDictR(r, str, level);
 }
