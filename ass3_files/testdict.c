@@ -21,8 +21,6 @@ int main (int argc, char *argv[])
       switch (c) {
       case 'a':
         addword (T, w);
-        printDict(T);
-        printf("\n");
         break;
       case 'c':
         if (checkword (T, w))
@@ -32,7 +30,7 @@ int main (int argc, char *argv[])
         break;
       case 'd':
         if (checkword(T, w))  /* check precondition */
-          delword (T, w); printDict(T); printf("\n");
+          delword (T, w);
         break;
       default:
         barf("failed to read a command.");
@@ -42,4 +40,3 @@ int main (int argc, char *argv[])
   };
   return EXIT_SUCCESS;
 }
-
