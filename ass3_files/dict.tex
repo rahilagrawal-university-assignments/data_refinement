@@ -363,7 +363,7 @@ Before we derive code for addR, we define $S$ to be the set of all prefixes of a
   }
 }
 \end{align*}
-\subsection{\color{blue}Proof 4\color{black}: $\myRefines{t, i:[i = c+1, \color{blue}post_{addword}^{DictA}\subst {G, Z}{\domto, t_0}]}{t, i:[i = c+1, \color{blue}post_{addword}^{DictA}]}$}
+\subsection{\color{blue}Proof 4\color{black}: $\myRefines{t, i:[i = c+1\And\domt=G \cup y_S^{i} \And t(y_S^{i}) = 1 \And Z=t, \color{blue}post_{addword}^{DictA}\subst {G, Z}{\domto, t_0}]}{t, i:[i = c+1\And\domt=G \cup y_S^{i} \And t(y_S^{i}) = 1 \And Z=text, \color{blue}post_{addword}^{DictA}]}$}
 To prove s-post we need to prove: $pre\subst {w_0}w \And post^{'} \Implies post$
 \begin{align*}
 &\text{To prove: }\domt = \domto \cup \{v\in L^* \mid v\leq w\}\text{ }\And\\
@@ -390,4 +390,7 @@ To prove s-post we need to prove: $pre\subst {w_0}w \And post^{'} \Implies post$
 \section{C Code}
 \label{sec:task-4}
 \lstinputlisting{dict.c}
+
+\subsection{\color{blue}The gap between C and Toy Language}
+Since we do not know how to use and manipulate pointers in toy langauge, there will be a gap between the C code and the toy langauge for this assignment. In toy language our base case is either $i = size(t)$ or $i = size(S)$ which exits the recursion when all the elements of the of the trie $t$ or the set $S$ have been visited. Now since we do not have a set for a trie or the set $S$ in C, our base case in the C code is when the null terminator in the word $w$ has been reached. For $delR$, in our toy language we have changed the mapping of the word to 0 to indicate that the word has been removed. In C code, this has been changed to setting the eow field in the node to $FALSE$ to acheive the same effect. For $checkR$, in our toy langauge we have assigned the boolean $b$ to $TRUE$ if there exists a mapping from the word $w$ to 1 and $FALSE$ otherwise. This behaviour is same in the C Code. For $addR$, in our toy language we map a prefix $v$ of the word $w$ to 0 if $v$ does not have a mapping already. Also, we map the word $w$ to 1. In our C code, this has been changed to creating a new node for each letter in the word if the node doesn't exist and setting the $eow$ for the last letter to $TRUE$.
 \end{document}
