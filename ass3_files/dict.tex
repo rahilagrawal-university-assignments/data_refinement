@@ -232,7 +232,7 @@ The total number of elements in a set $X$ is given by $size(X)$.\\
   {\myCode{\IF~i\neq size(t)}\\
   &\myCode{\THEN}~\nt{t, i:[i<size(t) ,t(w) = 0]}{(1)}\\
   &\myCode{\ELSE}~t, i:[i = size(t), t(w) = 0]\\
-  \refstep{\textbf{skip - Proof(1)}}{
+  \refstep{\textbf{skip, $i=size(t) \Implies$ element not in set $\Implies$ don't do anything}}{
   	\qquad \myCode{skip;}\\
   }
   &\myCode{\FI;}\\
@@ -271,7 +271,7 @@ The total number of elements in a set $X$ is given by $size(X)$.\\
   {\myCode{\IF~i\neq size(t)}\\
   &\myCode{\THEN}~\nt{t, i:[i<size(t) ,b = (t(w) = 1)]}{(1)}\\
   &\myCode{\ELSE}~t, i:[i = size(t), b = (t(w) = 1)]\\
-  \refstep{\textbf{skip - Proof(2)}}{
+  \refstep{\textbf{skip, $i=size(t) \Implies$ element not in set $\Implies$ don't do anything}}{
   	\qquad \myCode{skip;}\\
   }
   &\myCode{\FI;}\\
@@ -311,7 +311,7 @@ Before we derive code for addR, we define $S$ to be the set of all prefixes of a
   {\myCode{\IF~i\neq size(S)}\\
   &\myCode{\THEN}~\nt{t, i:[i<size(S) ,\color{blue}post_{addword}^{DictA}]}{(1)}\\
   &\myCode{\ELSE}~t, i:[i = size(S), \color{blue}post_{addword}^{DictA}]\\
-  \refstep{\textbf{skip - Proof(3)}}{
+  \refstep{\textbf{skip , $i=size(t) \Implies$ element not in set $\Implies$ don't do anything}}{
   	\qquad \myCode{skip;}\\
   }
   &\myCode{\FI;}\\
