@@ -7,7 +7,8 @@ void newdict(Dict *dp) {
     if (*dp == NULL) {
         return;
     }
-    for (int i = 0; i < VECSIZE; i++) {
+    int i=0;
+    for (i = 0; i < VECSIZE; i++) {
         ((*dp)->cvec)[i] = NULL;
     }
     (*dp)->eow = FALSE;
